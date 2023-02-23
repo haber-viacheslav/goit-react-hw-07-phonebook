@@ -1,4 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchContacts, addContact, deleteContact } from './contactService';
+
+const handlePending = state => {
+  state.isLoading = true;
+};
+
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -7,57 +17,34 @@ const contactsSlice = createSlice({
     isLoading: false,
     error: null,
   },
-  reducers: {
-    addContact(state, action) {
-      const contact = {
-        ...action.payload,
-      };
-      state.push(contact);
-    },
-    deleteContact(state, action) {
-      const index = state.findIndex(contact => contact.id !== action.payload);
-      state.splice(index, 1);
-    },
-    fetchingInProgress(state) {
-      state.isLoading = true;
-    },
-    fetchingSuccess(state, action) {
+  extraReducers: {
+    [fetchContacts.pending]: handlePending,
+    [addContact.rejected]: handleRejected,
+    [deleteContact.pending]: handlePending,
+    [deleteContact.rejected]: handleRejected,
+    [fetchContacts.rejected]: handleRejected,
+    [addContact.pending]: handlePending,
+    [fetchContacts.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
-      state.items = action.payload;
+      state.contacts.items = action.payload;
     },
-    fetchingError(state, action) {
+    [addContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      console.log(state.contacts.items);
+
+      state.items.push(action.payload);
+    },
+    [deleteContact.fulfilled](state, action) {
       state.isLoading = false;
       state.error = action.payload;
+      const index = state.items.findIndex(
+        item => item.id === action.payload.id
+      );
+      state.contacts.items.splice(index, 1);
     },
   },
 });
 
-export const {
-  addContact,
-  deleteContact,
-  fetchingInProgress,
-  fetchingSuccess,
-  fetchingError,
-} = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
-// const contactsSlice = createSlice({
-//   name: 'contacts',
-//   initialState: [],
-//   reducers: {
-//     addContact(state, action) {
-//       const contact = {
-//         ...action.payload,
-//         id: nanoid(),
-//       };
-//       state.push(contact);
-//     },
-//     deleteContact(state, action) {
-//       const index = state.findIndex(contact => contact.id !== action.payload);
-//       state.splice(index, 1);
-//     },
-//   },
-// });
-
-// export const { addContact, deleteContact } = contactsSlice.actions;
-// export const contactsReducer = contactsSlice.reducer;

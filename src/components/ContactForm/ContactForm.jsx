@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import { string, object } from 'yup';
 import 'yup-phone';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/contactService';
 import { useDispatch } from 'react-redux';
 import {
   FormWrap,
@@ -26,6 +26,8 @@ const ContactForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, { resetForm }) => {
+    console.log('values from form', values);
+
     dispatch(addContact(values));
     resetForm();
   };
