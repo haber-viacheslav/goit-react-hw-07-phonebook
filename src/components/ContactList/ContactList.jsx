@@ -9,14 +9,17 @@ const ContactList = () => {
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilterValue);
   const visibleContacts = getVisibleContacts(filter, contacts);
+  console.log('contacts', contacts);
+  console.log('filter', filter);
+  console.log('visible', visibleContacts);
 
   return (
     <>
       {contacts.length > 0 && (
         <ContactListWrp>
-          {visibleContacts.map(({ name, number, id }) => (
-            <li key={id}>
-              <ContactItem name={name} number={number} />
+          {visibleContacts.map(contact => (
+            <li key={contact.id}>
+              <ContactItem contact={contact} />
             </li>
           ))}
         </ContactListWrp>
@@ -29,7 +32,7 @@ ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
     })
   ),

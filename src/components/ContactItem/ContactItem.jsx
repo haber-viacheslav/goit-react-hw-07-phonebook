@@ -1,16 +1,21 @@
 import PropTypes from 'prop-types';
-import { ContactItemButton, ContactItemWrp } from './ContactItem.styled';
+import {
+  ContactItemButton,
+  ContactItemWrp,
+  ContactName,
+  ContactPhone,
+} from './ContactItem.styled';
 import { deleteContact } from 'redux/contactService';
 import { useDispatch } from 'react-redux';
 
-const ContactItem = ({ name, number, id }) => {
+const ContactItem = ({ contact: { name, phone, id } }) => {
   const dispatch = useDispatch();
   const handleDeleteContact = () => dispatch(deleteContact(id));
   return (
     <ContactItemWrp>
-      <p>
-        {name}: <span>{number}</span>
-      </p>
+      <ContactName>
+        {name}: <ContactPhone>{phone}</ContactPhone>
+      </ContactName>
       <ContactItemButton onClick={handleDeleteContact}>
         delete
       </ContactItemButton>
@@ -20,7 +25,7 @@ const ContactItem = ({ name, number, id }) => {
 
 ContactItem.propTypes = {
   name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
   id: PropTypes.string,
 };
 

@@ -14,20 +14,18 @@ import {
 
 const initialValues = {
   name: '',
-  number: '',
+  phone: '',
 };
 
 const schema = object().shape({
   name: string().trim().strict().required(),
-  number: string().phone('UA').required(),
+  phone: string().phone('UA').required(),
 });
 
 const ContactForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, { resetForm }) => {
-    console.log('values from form', values);
-
     dispatch(addContact(values));
     resetForm();
   };
@@ -45,10 +43,10 @@ const ContactForm = () => {
           <FormErrorMessage name="name" component="div" />
         </FormInputWrp>
 
-        <FormInputWrp htmlFor="number">
-          <FormLabel>Number</FormLabel>
-          <FormInput type="tel" name="number" />
-          <FormErrorMessage name="number" component="div" />
+        <FormInputWrp htmlFor="phone">
+          <FormLabel>Phone</FormLabel>
+          <FormInput type="tel" name="phone" />
+          <FormErrorMessage name="phone" component="div" />
         </FormInputWrp>
 
         <FormButton type="submit">Add contact</FormButton>
