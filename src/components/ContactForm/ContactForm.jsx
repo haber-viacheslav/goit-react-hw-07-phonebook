@@ -3,6 +3,7 @@ import { string, object } from 'yup';
 import 'yup-phone';
 import { addContact } from 'redux/contactService';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   FormWrap,
   FormErrorMessage,
@@ -11,12 +12,15 @@ import {
   FormInputWrp,
   FormButton,
 } from './ContactForm.styled';
+import { selectContacts } from 'redux/selectors';
+import { checkContact, checkPhone } from 'components/helpers/formCheckers';
 
+// Initial values for formik
 const initialValues = {
   name: '',
   phone: '',
 };
-
+// Yup schema
 const schema = object().shape({
   name: string().trim().strict().required(),
   phone: string().phone('UA').required(),
@@ -24,8 +28,16 @@ const schema = object().shape({
 
 const ContactForm = () => {
   const dispatch = useDispatch();
-
+  const contacts = useSelector(selectContacts);
   const handleSubmit = (values, { resetForm }) => {
+    if (checkContact(contacts, values)) {
+      alert(`${values.name} is already in contacts`);
+      return;
+    }
+    if (checkPhone(contacts, values)) {
+      alert(`${values.phone} is already in contacts`);
+      return;
+    }
     dispatch(addContact(values));
     resetForm();
   };

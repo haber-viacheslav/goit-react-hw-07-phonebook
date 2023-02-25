@@ -5,6 +5,8 @@ import { selectError, selectIsLoading } from 'redux/selectors';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
+import { Toaster } from 'react-hot-toast';
+import { toasterMessages } from './notification/toasterMessages';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -13,16 +15,16 @@ export const App = () => {
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
-
+  toasterMessages(isLoading, error);
   return (
     <div>
       <h1>Phonebook</h1>
       <ContactForm />
-      {isLoading && <p>Loading tasks...</p>}
       <h2>Contacts</h2>
       <Filter />
       <ContactList />
-      {error && <p>{error}</p>}
+
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

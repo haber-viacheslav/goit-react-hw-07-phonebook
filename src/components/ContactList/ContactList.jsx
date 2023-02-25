@@ -1,21 +1,15 @@
 import ContactItem from 'components/ContactItem';
 import PropTypes from 'prop-types';
 import { ContactListWrp } from './ContactList.styled';
-import { selectContacts, selectFilterValue } from 'redux/selectors';
+import { selectVisibleContacts } from 'redux/selectors';
 import { useSelector } from 'react-redux';
-import { getVisibleContacts } from 'components/helpers/getVisibleContacts';
 
 const ContactList = () => {
-  const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectFilterValue);
-  const visibleContacts = getVisibleContacts(filter, contacts);
-  console.log('contacts', contacts);
-  console.log('filter', filter);
-  console.log('visible', visibleContacts);
+  const visibleContacts = useSelector(selectVisibleContacts);
 
   return (
     <>
-      {contacts.length > 0 && (
+      {visibleContacts.length > 0 && (
         <ContactListWrp>
           {visibleContacts.map(contact => (
             <li key={contact.id}>

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
 // default Axios URL
 axios.defaults.baseURL = 'https://63f50d7355677ef68bc9161b.mockapi.io';
 // Fetch contacts from mockapi
@@ -15,7 +14,7 @@ export const fetchContacts = createAsyncThunk(
     }
   }
 );
-
+// Add contact to mockapi
 export const addContact = createAsyncThunk(
   'contacts/addContact',
   async (formData, thunkAPI) => {
@@ -27,7 +26,7 @@ export const addContact = createAsyncThunk(
     }
   }
 );
-
+// Remove contact from mockapi
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (id, thunkAPI) => {
