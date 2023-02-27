@@ -6,16 +6,18 @@ import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
 import { Toaster } from 'react-hot-toast';
-import { toasterMessages } from './notification/toasterMessages';
 
 export const App = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectError);
-  const error = useSelector(selectIsLoading);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+  console.log('error', error);
+  console.log('isloading', isLoading);
+
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
-  toasterMessages(isLoading, error);
+
   return (
     <div>
       <h1>Phonebook</h1>
@@ -23,7 +25,7 @@ export const App = () => {
       <h2>Contacts</h2>
       <Filter />
       <ContactList />
-
+      {isLoading && !error && <p>Loading ...</p>}
       <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
