@@ -11,8 +11,6 @@ export const App = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
-  console.log('error', error);
-  console.log('isloading', isLoading);
 
   useEffect(() => {
     dispatch(fetchContacts());
